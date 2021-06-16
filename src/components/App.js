@@ -18,10 +18,6 @@ class App extends Component {
     loadMoreStatus: false,
   };
 
-  componentDidMount() {
-    document.addEventListener("keydown", this.closeModalWindow, false);
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { searchQuery, currentPage } = this.state;
     if (
@@ -32,16 +28,12 @@ class App extends Component {
     }
   }
 
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.closeModalWindow, false);
-  }
-
   addData = (searchQuery, currentPage) => {
     this.setState({ isLoading: true });
     Api.getImage(searchQuery, currentPage)
       .then((imageData) =>
         this.setState((prevState) => {
-          if (imageData.length !== 0) {
+          if (imageData.length) {
             return {
               imageData: prevState.imageData.concat(imageData),
               loadMoreStatus: true,
